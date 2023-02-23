@@ -1,5 +1,5 @@
 
-// Requete API avec fetch
+// requete API avec fetch
 fetch(`http://localhost:3000/api/products`)
   .then((response) => response.json())
   .then(data => {
@@ -7,7 +7,7 @@ fetch(`http://localhost:3000/api/products`)
     let display = ""
     for(let product of data){
 
-// Boucle d'incrementation pour utiliser le template pour chaque produit
+// boucle d'incrementation pour utiliser le template pour chaque produit
       display += `
            <a href="./product.html?id=${product._id}">
             <article>
