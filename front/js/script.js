@@ -1,18 +1,10 @@
-/* a revoir */
-// let products;
-/* fin a revoir */
-
 // requete API avec fetch
 fetch(`http://localhost:3000/api/products`)
   .then((response) => response.json())
   .then(data => {
 
-    /* a revoir */
-    // products = data
-    /* fin a revoir */
-
     let display = ""
-    for(let product of data /*products*/){
+    for(let product of data){
 
 // boucle d'incrementation pour utiliser le template pour chaque produit
       display += `
@@ -34,4 +26,3 @@ fetch(`http://localhost:3000/api/products`)
     console.log(error);
   })
 
-/**** utiliser async et await pour réutiliser les données à l'exterieur de la boucle ?***/
