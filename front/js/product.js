@@ -50,48 +50,59 @@ fetch(`http://localhost:3000/api/products/${productId}`)
 
  /********* ajout au panier ***************/
 
-const addToCartButton = document.querySelector("#addToCart");
-addToCartButton.addEventListener("click", addToCart);
-
-
-function addToCart() {
-  const select = document.getElementById("colors");
-  const color = select.value;
-  const quantity = parseInt(document.getElementById("quantity").value);
-
-  if (color === "" || quantity <= 0) {
-    alert("Veuillez choisir une couleur et une quantité valide.");
-    return;
-  }
-
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  const product = {
-    id: productId,
-    color: color,
-    quantity: quantity,
-  };
-
-  cart.push(product);
-  localStorage.setItem("cart", JSON.stringify(cart));
-
-  alert("Le produit a été ajouté au panier.");
-
-}
-
-// récupère le panier depuis le localStorage
-const cartString = localStorage.getItem("cart");
-const cart = JSON.parse(cartString);
-
-// Vérifier que le panier n'est pas vide
-if (cart && cart.length > 0) {
-  // si au moins 1 produit dans le panier, affiche les produits
-  console.log("===> panier: "+ cartString);
-} else {
-  // sinon affiche un message le panier est vide
-  console.log("Le panier est vide");
-}
-
+ const addToCartButton = document.querySelector("#addToCart");
+ addToCartButton.addEventListener("click", addToCart);
+ 
+ function addToCart() {
+   const select = document.getElementById("colors");
+   const color = select.value;
+   const quantity = parseInt(document.getElementById("quantity").value);
+ 
+   if (color === "" || quantity <= 0) {
+     alert("Veuillez choisir une couleur et une quantité valide.");
+     return;
+   }
+ 
+   let cart = JSON.parse(localStorage.getItem("cart")) || [];
+ 
+   // Parcourir chaque produit dans le panier
+   for (let i = 0; i < cart.length; i++) {
+     const product = cart[i];
+     // Vérifier si l'identifiant et la couleur correspondent à ceux du produit à ajouter
+     if (product.id === productId && product.color === color) {
+       // Si oui, incrémenter la quantité existante
+       product.quantity += quantity;
+       localStorage.setItem("cart", JSON.stringify(cart));
+       alert("La quantité a été mise à jour dans le panier.");
+       return;
+     }
+   }
+ 
+   // Si aucun produit ne correspond, ajouter un nouveau produit au panier
+   const newProduct = {
+     id: productId,
+     color: color,
+     quantity: quantity,
+   };
+ 
+   cart.push(newProduct);
+   localStorage.setItem("cart", JSON.stringify(cart));
+   alert("Le produit a été ajouté au panier.");
+ }
+ 
+ // récupère le panier depuis le localStorage
+ const cartString = localStorage.getItem("cart");
+ const cart = JSON.parse(cartString);
+ 
+ // Vérifier que le panier n'est pas vide
+ if (cart && cart.length > 0) {
+   // si au moins 1 produit dans le panier, affiche les produits
+   console.log("===> panier: "+ cartString);
+ } else {
+   // sinon affiche un message le panier est vide
+   console.log("Le panier est vide");
+ }
+ 
 
 /************** fin ajout au panier *********************/
 
