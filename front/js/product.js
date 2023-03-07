@@ -43,11 +43,6 @@ fetch(`http://localhost:3000/api/products/${productId}`)
     console.log(error);
   })
 
-
-/************ Vide le panier ***************/
-  //  localStorage.clear();
-
-
  /********* ajout au panier ***************/
 
  const addToCartButton = document.querySelector("#addToCart");
