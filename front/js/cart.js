@@ -146,10 +146,27 @@ console.log(cart);
 
 /**************** FORMULAIRE ******************/
 
+document.querySelector('.cart__order__form').addEventListener('submit', (event) => {
+  event.preventDefault();
 
+  const firstName = document.getElementById('firstName').value;
+  const lastName = document.getElementById('lastName').value;
+  const address = document.getElementById('address').value;
+  const city = document.getElementById('city').value;
+  const email = document.getElementById('email').value;
 
+  const contact = {
+    firstName: firstName,
+    lastName: lastName,
+    address: address,
+    city: city,
+    email: email
+  };
 
+  console.log('Contact :', contact);
+  console.log('Produits :', cart);
 
+});
 
 
 
