@@ -77,16 +77,27 @@ fetch('http://localhost:3000/api/products')
     
     updateTotals(groupedCart);
 
+
     // Gestion de la modification de la quantité des produits du panier
     function handleCartItemsChange(groupedCart, event) {
       const element = event.target;
       const item = element.closest('.cart__item');
       const itemId = item.dataset.id;
       const itemColor = item.dataset.color;
-      
+
       if (element.classList.contains('itemQuantity')) {
         const newQuantity = parseInt(element.value);
         const key = `${itemId}-${itemColor}`;
+        const currentQuantity = groupedCart[key].quantity;
+        const diff = newQuantity - currentQuantity;
+
+        // Vérifier si la quantité maximale est atteinte
+        if (groupedCart[key].quantity + diff > 100) {
+          alert("Vous ne pouvez pas ajouter plus de 100 articles de ce produit au panier.");
+          element.value = currentQuantity;
+          return;
+        }
+
         groupedCart[key].quantity = newQuantity;
         cart.forEach((item, index) => {
           if (item.id === itemId && item.color === itemColor) {
@@ -100,36 +111,50 @@ fetch('http://localhost:3000/api/products')
     }
 
     // Gestion de la suppression des produits du panier
-function handleCartItemsClick(groupedCart, event) {
-  const element = event.target;
-  const item = element.closest('.cart__item');
-  const itemId = item.dataset.id;
-  const itemColor = item.dataset.color;
+    function handleCartItemsClick(groupedCart, event) {
+      const element = event.target;
+      const item = element.closest('.cart__item');
+      const itemId = item.dataset.id;
+      const itemColor = item.dataset.color;
 
-  if (element.classList.contains('deleteItem')) {
-    const key = `${itemId}-${itemColor}`;
-    delete groupedCart[key];
-    cart = cart.filter(item => !(item.id === itemId && item.color === itemColor));
-    localStorage.setItem('cart', JSON.stringify(cart));
-    renderCartItems(groupedCart);
-    updateTotals(groupedCart);
-  }
-}
+      if (element.classList.contains('deleteItem')) {
+        const key = `${itemId}-${itemColor}`;
+        delete groupedCart[key];
+        cart = cart.filter(item => !(item.id === itemId && item.color === itemColor));
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCartItems(groupedCart);
+        updateTotals(groupedCart);
+      }
+    }
 
-// Ajout des écouteurs d'événements pour la modification de la quantité et la suppression d'un produit dans le panier
-cartItemsSection.addEventListener('change', event => {
-  handleCartItemsChange(groupedCart, event);
-});
+    // Ajout des écouteurs d'événements pour la modification de la quantité et la suppression d'un produit dans le panier
+    cartItemsSection.addEventListener('change', event => {
+      handleCartItemsChange(groupedCart, event);
+    });
 
-cartItemsSection.addEventListener('click', event => {
-  handleCartItemsClick(groupedCart, event);
-});
-})
-.catch(error => {
-console.error(error);
-cartItemsSection.textContent = 'Error loading cart items.';
-});
+    cartItemsSection.addEventListener('click', event => {
+      handleCartItemsClick(groupedCart, event);
+    });
+
+  })
+  .catch(error => {
+    console.error(error);
+  });
 
 console.log(cart);
 
 
+/**************** FORMULAIRE ******************/
+
+
+
+
+
+
+
+
+
+
+
+
+/**************** FORMULAIRE ******************/
