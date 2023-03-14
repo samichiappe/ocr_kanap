@@ -17,7 +17,6 @@ fetch(`http://localhost:3000/api/products`)
           </a>
           `
     }
-    console.log(display)
     document.querySelector(`#items`).innerHTML = display
   })
 

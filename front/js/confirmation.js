@@ -5,4 +5,4 @@ const orderId = new URLSearchParams(window.location.search).get("orderId");
 document.getElementById('orderId').textContent = orderId;
 
 // vide le localStorage
-// window.localStorage.clear();
+window.localStorage.clear();

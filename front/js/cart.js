@@ -223,12 +223,12 @@ document.querySelector('.cart__order__form').addEventListener('submit', (event) 
   // Récupération des id des produits du panier
   const productId = cart.map(item => item.id);
 
-  // création de l'objet global à envoyer dans la requête POST
-  const objData = {
-    contact: contact,
-    products: productId
-  };
-
+  // création de l'objet global à envoyer dans la requête POST si le panier n'est pas vide
+  if (cart.length > 0) {
+    const objData = {
+      contact: contact,
+      products: productId
+    };
 
   // envoi de la requête POST à l'API
   fetch('http://localhost:3000/api/products/order', {
@@ -242,18 +242,16 @@ document.querySelector('.cart__order__form').addEventListener('submit', (event) 
     .then(data => {
     const orderId = data.orderId;
     window.location.href = `confirmation.html?orderId=${orderId}`
-    console.log('Identifiant de commande :', orderId);
     })
     .catch(error => {
     console.error('Erreur :', error);
     });
-
-
+  } else {
+    alert ("Le panier est vide.");
+  }
 
   console.log('Contact :', contact);
   console.log('Produits :', cart);
-  console.log('Data (contact et produits) :', objData);
-
 });
 
 const firstNameInput = document.getElementById('firstName');
@@ -281,8 +279,3 @@ cityInput.addEventListener('input', () => {
 emailInput.addEventListener('input', () => {
   document.getElementById('emailErrorMsg').textContent = '';
 });
-
-
-
-
-/**************** FORMULAIRE ******************/
