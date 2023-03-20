@@ -7,7 +7,7 @@ fetch('http://localhost:3000/api/products')
   .then(response => response.json())
   .then(products => {
 
-    // Groupement des produits du panier par id et couleur
+    // Tri les produits du panier par id et couleur et vérifie si aucun id/couleur est deja existant
     const groupedCart = {};
     cart.forEach(item => {
       const key = `${item.id}-${item.color}`;
@@ -89,15 +89,13 @@ fetch('http://localhost:3000/api/products')
         const newQuantity = parseInt(element.value);
         const key = `${itemId}-${itemColor}`;
         const currentQuantity = groupedCart[key].quantity;
-        const diff = newQuantity - currentQuantity;
 
-        // Vérifier si la quantité maximale est atteinte
-        if (groupedCart[key].quantity + diff > 100) {
-          alert("Vous ne pouvez pas ajouter plus de 100 articles de ce produit au panier.");
+        // Vérifier si la quantité est comprise entre 1 et 100
+        if (newQuantity < 1 || newQuantity > 100) {
+          alert("La quantité doit être comprise entre 1 et 100.");
           element.value = currentQuantity;
           return;
         }
-
         groupedCart[key].quantity = newQuantity;
         cart.forEach((item, index) => {
           if (item.id === itemId && item.color === itemColor) {
@@ -142,9 +140,6 @@ fetch('http://localhost:3000/api/products')
   });
 
 console.log(cart);
-
-
-
 
 
 
@@ -254,6 +249,7 @@ document.querySelector('.cart__order__form').addEventListener('submit', (event) 
   console.log('Produits :', cart);
 });
 
+// Supprime le message d'erreur si modification
 const firstNameInput = document.getElementById('firstName');
 const lastNameInput = document.getElementById('lastName');
 const addressInput = document.getElementById('address');

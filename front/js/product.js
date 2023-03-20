@@ -4,7 +4,7 @@ const urlParams = new URLSearchParams(queryString);
 const productId = urlParams.get("id");
 console.log("===> productId: " + productId);
 
-
+// Requete l'api pour afficher le produit cliqué
 fetch(`http://localhost:3000/api/products/${productId}`)
   .then((response) => response.json())
   .then((data) => {
